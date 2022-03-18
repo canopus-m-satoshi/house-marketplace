@@ -54,7 +54,7 @@ function Navbar() {
                   ? 'navbarListItemNameActive'
                   : 'navbarListItemName'
               }>
-              Offer
+              Offers
             </p>
           </li>
           <li
