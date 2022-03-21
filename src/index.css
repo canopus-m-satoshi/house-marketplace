@@ -738,6 +738,11 @@ button {
   justify-content: center;
   align-items: center;
 }
+.formButton,
+.formButtonActive,
+.formInputFile {
+  cursor: pointer;
+}
 .formButtonActive {
   background-color: #00cc66;
   color: #ffffff;
