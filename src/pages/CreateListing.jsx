@@ -421,9 +421,6 @@ function CreateListing() {
             type="file"
             id="images"
             onChange={onMutate}
-            onClick={() => {
-              console.log('clicked')
-            }}
             max="6"
             accept=".jpg,.png,.jpeg"
             multiple
