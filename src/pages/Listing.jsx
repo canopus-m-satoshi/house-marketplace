@@ -5,7 +5,6 @@ import { getAuth } from 'firebase/auth'
 import { db } from '../firebase.config'
 import Spinner from '../components/Spinner'
 import shareIcon from '../assets/svg/shareIcon.svg'
-import { async } from '@firebase/util'
 
 function Listing() {
   const [listing, setListing] = useState(null)
@@ -22,7 +21,6 @@ function Listing() {
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
-        console.log(docSnap.data())
         setListing(docSnap.data())
         setLoading(false)
       }
@@ -37,6 +35,8 @@ function Listing() {
 
   return (
     <main>
+      {/* SLIDER */}
+
       <div
         className="shareIconDiv"
         onClick={() => {
@@ -49,7 +49,7 @@ function Listing() {
         <img src={shareIcon} alt="" />
       </div>
 
-      {shareLinkCopied && <p className="linkCopied">Link Copoed!</p>}
+      {shareLinkCopied && <p className="linkCopied">Link Copied!</p>}
 
       <div className="listingDetails">
         <p className="listingName">
@@ -64,11 +64,11 @@ function Listing() {
         </p>
         <p className="listingLocation">{listing.location}</p>
         <p className="listingType">
-          For {listing.type === 'rent' ? 'Rent' : 'Sell'}
+          For {listing.type === 'rent' ? 'Rent' : 'Sale'}
         </p>
         {listing.offer && (
           <p className="discountPrice">
-            $ {listing.regularPrice - listing.discountedPrice} discount
+            ${listing.regularPrice - listing.discountedPrice} discount
           </p>
         )}
 
@@ -93,7 +93,8 @@ function Listing() {
 
         {auth.currentUser?.uid !== listing.userRef && (
           <Link
-            to={`/contact/${listing.userRef}?listingName=${listing.name}&listingLocation=${listing.location}`}>
+            to={`/contact/${listing.userRef}?listingName=${listing.name}`}
+            className="primaryButton">
             Contact Landlord
           </Link>
         )}

@@ -66,7 +66,6 @@ function CreateListing() {
     return () => {
       isMounted.current = false
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted])
 
@@ -115,7 +114,7 @@ function CreateListing() {
       geolocation.lng = longitude
     }
 
-    //  Store image in firebase
+    // Store image in firebase
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
         const storage = getStorage()
@@ -123,17 +122,11 @@ function CreateListing() {
 
         const storageRef = ref(storage, 'images/' + fileName)
 
-        // Upload the file and metadata
         const uploadTask = uploadBytesResumable(storageRef, image)
-        // Register three observers:
-        // 1. 'state_changed' observer, called any time the state changes
-        // 2. Error observer, called on failure
-        // 3. Completion observer, called on successful completion
+
         uploadTask.on(
           'state_changed',
           (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             console.log('Upload is ' + progress + '% done')
@@ -144,10 +137,11 @@ function CreateListing() {
               case 'running':
                 console.log('Upload is running')
                 break
+              default:
+                break
             }
           },
           (error) => {
-            // Handle unsuccessful uploads
             reject(error)
           },
           () => {
@@ -175,6 +169,7 @@ function CreateListing() {
       geolocation,
       timestamp: serverTimestamp(),
     }
+
     formDataCopy.location = address
     delete formDataCopy.images
     delete formDataCopy.address
@@ -183,8 +178,6 @@ function CreateListing() {
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
     setLoading(false)
     toast.success('Listing saved')
-
-    // re-direct to the listed page
     navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   }
 
